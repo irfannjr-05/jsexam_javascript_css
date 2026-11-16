@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cosmetics</title>
+ <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+ <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+</head>
+<body>
+     <body class="bg-amber-100">
+    <header class="w-auto py-5 text-center border-b-2 mx-2">
+      <h1 class="text-3xl font-bold">BEAUTY PRODUCTS</h1>
+    </header>
+      <main class="w-full">
+      <div class="flex justify-center items-center py-3 gap-2 sm:gap-5">
+        <input
+          class="placeholder-black font-medium px-5 py-2 border-2 rounded-full"
+          type="search"
+          placeholder="Search Your Product"
+          id="search"
+        />
+        <button
+          onclick="searchName()"
+          class="font-medium px-5 py-2 border-2 rounded-full hover:bg-amber-300 active:scale-[0.9] transition-all ease-in-out duration-300 hover:shadow-lg"
+        >
+          Search
+        </button>
+      </div>
+
+
+ <div
+        id="searchResult"
+        class="flex w-full items-center gap-3 overflow-x-auto border-y-1"
+      ></div>
+
+    <h2 class="w-auto text-center font-bold text-lg border-b-1 mx-2 py-2">
+        PRODUCTS
+      </h2>
+
+      <section
+        id="result"
+        class="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 p-2 border-b-2"
+      ></section>
+
+      <h2 class="w-auto text-center font-bold text-lg border-b-1 mx-2 py-2">
+        FAVOURITES
+      </h2>
+        <div class="text-center  "> <button
+          onclick="searchName()"
+          class="font-medium px-5 py-2 border-2 rounded-full hover:bg-amber-300  active:scale-[0.9] transition-all ease-in-out duration-300 hover:shadow-lg"
+        >
+          add to fav
+        </button>
+<button
+          onclick="searchName()"
+          class="font-medium px-5 py-2 border-2 rounded-full hover:bg-amber-300  active:scale-[0.9] transition-all ease-in-out duration-300 hover:shadow-lg"
+        >
+          view fav
+        </button>
+        <button
+          onclick="searchName()"
+          class="font-medium px-5 py-2 border-2 rounded-full hover:bg-amber-300  active:scale-[0.9] transition-all ease-in-out duration-300 hover:shadow-lg"
+        >
+         edit fav
+        </button>
+        <button
+          onclick="searchName()"
+          class="font-medium px-5 py-2 border-2 rounded-full hover:bg-amber-300  active:scale-[0.9] transition-all ease-in-out duration-300 hover:shadow-lg"
+        >
+         delete fav
+        </button>
+   
+
+</div>
+      <section
+        id="favourites"
+        class="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 p-2"
+      ></section>
+    </main>
+  </body>
+    <script>
+   let favData = JSON.parse(localStorage.getItem("cosmetics")) || [];
+
+    let apiResponse = [];
+
+    const displayData = () => {
+      const displaySection = document.querySelector("#result");
+
+      displaySection.innerHTML = "";
+
+      apiResponse.map(
+        (each, index) =>
+          (displaySection.innerHTML += `<article class="backdrop-blur-xl bg-yellow-300/50 flex flex-col justify-between border-1 rounded-sm min-h-80 p-1 hover:shadow-[0_2px_5px_black] transition-all ease-in-out duration-300">
+
+            <div class="h-50 w-full overflow-hidden rounded-sm border-1 bg-white flex justify-center items-center relative p-2">
+              <img class="h-full w-full object-contain" src="${each.thumbnail}" alt="${each.title}">
+
+ <div class="absolute left-1 top-1 text-yellow-400 text-sm font-bold text-shadow-xs">
+                <i class="fa-solid fa-star"></i>
+                <span>${each.rating}</span>
+              </div>
+
+              <button onclick="favBtnClick(${index})" class="absolute right-1 top-1 text-red-600 hover:scale-[1.1] active:scale-[0.9] transition-all ease-in-out duration-300 p-0 cursor-pointer">
+                <i class="fa-solid fa-heart"></i>
+              </button>
+            </div>
+                        <div class="w-full text-center">
+              <h2 class="uppercase border-b-1 line-clamp-2">${each.title}</h2>
+              <p class="line-clamp-3 text-sm">${each.description}</p>
+            </div>
+
+            <div class="w-full my-3 text-center">
+              <span class="py-0.5 px-3 bg-yellow-500 rounded-full uppercase border-1 hover:shadow-[0_2px_5px_black] transition-all ease-in-out duration-300 font-medium cursor-pointer">$ ${each.price}</span>
+            </div>
+
+          </article>`),
+      );
+    };
+
+
+
+
+ const getData = async () => {
+      try {
+        apiResponse = await fetch(
+          "https://dummyjson.com/products"
+        );
+
+        apiResponse = await apiResponse.json();
+
+        apiResponse = apiResponse.products;
+
+        console.log(apiResponse);
+
+        displayData();
+      } catch (error) {
+        console.log(error);
+        alert(error);
+      }
+    };
+        getData();
+
+    const displayFavourites = () => {
+      const favDisplay = document.querySelector("#favourites");
+
+      if (favData.length === 0) {
+        favDisplay.innerHTML = "";
+        return;
+      }
+
+
+     
+
+
+</body>
+</html>
